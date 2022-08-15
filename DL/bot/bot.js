@@ -1,11 +1,10 @@
-const TelegramBot = require("node-telegram-bot-api");
-const { newMessage } = require("./messages");
-const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
-const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
+// const TelegramBot = require("node-telegram-bot-api");
+// const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
+// const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
+// const { newMessage } = require("./messages");
 ////////
 exports.sendMessage = (chatId, message) => {
   console.log("hello from message");
-  let messageToSent = ``;
   bot.sendMessage(chatId, message);
   return;
 };
