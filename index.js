@@ -17,7 +17,11 @@ const io = new Server(4001, {
 app.use(express.json());
 app.use(require("cors")());
 app.use("/api", router);
-
+let sendMessage = (chatId, message) => {
+  console.log("hello from message");
+  bot.sendMessage(chatId, message);
+  return;
+};
 require("./DL/db")
   .connect()
   .then(
