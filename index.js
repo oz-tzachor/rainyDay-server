@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3001;
 const { Server } = require("socket.io");
-require("dotenv").config();
+// require("dotenv").config();
 const { dealWithMessage } = require("./DL/bot/bot");
 const { loadMainSocket } = require("./DL/sockets/socket");
 const router = require("./Routers");
