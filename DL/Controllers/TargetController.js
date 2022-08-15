@@ -12,8 +12,11 @@ async function readOne(filter) {
 async function update(filter, newData) {
   return await TargetModel.updateOne(filter, newData);
 }
+
 async function del(filter) {
   await update(filter, { isActive: flase });
 }
-
-module.exports = { create, read, readOne, update, del };
+async function delAll(filter) {
+  return await TargetModel.deleteMany({});
+}
+module.exports = { create, read, readOne, update, del, delAll };

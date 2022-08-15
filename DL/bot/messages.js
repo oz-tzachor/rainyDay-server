@@ -52,7 +52,6 @@ const getTargets = async () => {
   return await targetLogic.getAllTargets({ createdBy: currentUser._id });
 };
 const getLastActs = async (target) => {
-  console.log("klast acts");
   let incomes = await incomeLogic.getIncomes(target);
   let expenses = await expenseLogic.getExpenses(target);
   for (
@@ -70,7 +69,6 @@ const getLastActs = async (target) => {
   }
   let combinedArray = [...incomes, ...expenses];
   combinedArray.sort((a, b) => {
-    console.log("type", a.type, b.type);
     return new Date(b.createdAt) - new Date(a.createdAt);
   });
   return combinedArray.reverse();
@@ -79,6 +77,11 @@ const checkUser = async () => {
   currentUser = await telegramUserLogic.getTelegramUser({
     chatId: currentChatId,
   });
+  if (currentMessage.toLowerCase() === "deleteall") {
+    await targetLogic.deleteAllTargets();
+    changeTelegramState("main_userChoise");
+    return;
+  }
   if (currentMessage.toLowerCase() === "reset") {
     changeTelegramState("initial");
     telegramUserLogic.updateUserDetails(currentChatId, {

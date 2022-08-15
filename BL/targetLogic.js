@@ -12,6 +12,9 @@ exports.getTarget = (targetId) => {
 exports.getAllTargets = (filter) => {
   return targetController.read(filter);
 };
+exports.deleteAllTargets = (filter) => {
+  return targetController.delAll();
+};
 // exports.createNewTraget = async (newTargetDetails) => {
 //   let newExpense = await targetController.create(newTargetDetails);
 //   const budgetForUpdate = await budgetController.readOne({
