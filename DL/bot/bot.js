@@ -13,6 +13,6 @@ exports.dealWithMessage = async () => {
   bot.on("message", async (msg) => {
     let chatId = msg.chat.id;
     let text = msg.text;
-    newMessage(chatId, text, sendMessage);
+    // newMessage(chatId, text, sendMessage);
   });
 };
