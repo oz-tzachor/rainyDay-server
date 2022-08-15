@@ -3,7 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const { Server } = require("socket.io");
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
-const bot = require("./DL/bot/bot");
+// const bot = require("./DL/bot/bot");
 const { loadMainSocket } = require("./DL/sockets/socket");
 const router = require("./Routers");
 const TelegramBot = require("node-telegram-bot-api");
