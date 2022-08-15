@@ -3,7 +3,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const { Server } = require("socket.io");
 if (process.env.NODE_ENV !== "production") require("dotenv").config();
-const { dealWithMessage } = require("./DL/bot/bot");
+const bot = require("./DL/bot/bot");
 const { loadMainSocket } = require("./DL/sockets/socket");
 const router = require("./Routers");
 
@@ -20,7 +20,7 @@ require("./DL/db")
   .then(
     () => app.listen(PORT, () => console.log(`server is running => ${PORT}`)),
     loadMainSocket(io),
-    dealWithMessage()
+    bot.dealWithMessage()
   )
   .catch((e) => console.log("error", e));
 
