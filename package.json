@@ -31,7 +31,8 @@
     "node-cron": "^3.0.0",
     "node-telegram-bot-api": "^0.57.0",
     "nodemailer": "^6.7.5",
-    "socket.io": "^4.5.1"
+    "socket.io": "^4.5.1",
+    "nodemon": "^2.0.18"
   },
   "devDependencies": {
     "dotenv": "^16.0.1",
