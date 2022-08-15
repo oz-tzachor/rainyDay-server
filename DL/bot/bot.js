@@ -4,6 +4,7 @@ const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 ////////
 exports.sendMessage = (chatId, message) => {
+  console.log("hello from message");
   let messageToSent = ``;
   bot.sendMessage(chatId, message);
   return;

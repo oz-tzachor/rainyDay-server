@@ -21,6 +21,7 @@ require("./DL/db")
     () => app.listen(PORT, () => console.log(`server is running => ${PORT}`)),
     loadMainSocket(io),
     console.log("bot", bot),
+    sendMessage(),
     bot.dealWithMessage()
   )
   .catch((e) => console.log("error", e));
