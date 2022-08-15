@@ -213,6 +213,10 @@ let mainFlow = async (state) => {
           break;
 
         default:
+          localSendMessage(currentChatId, followTheInstructions());
+          setTimeout(() => {
+            localSendMessage(currentChatId, mainMessage());
+          }, 1000);
           break;
       }
       break;
