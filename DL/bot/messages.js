@@ -339,6 +339,7 @@ let mainFlow = async (state) => {
         amount: currentUser.incomeDetails.amount,
         target: currentUser.incomeDetails.target,
         createdBy: currentUser._id,
+        createdAt: new Date(),
         description: currentMessage === "לא" ? null : currentMessage,
       });
       console.log("selected", selectedTarget.amount, selectedTarget.goal);
@@ -423,6 +424,7 @@ let mainFlow = async (state) => {
         amount: currentUser.expenseDetails.amount,
         target: currentUser.expenseDetails.target,
         createdBy: currentUser._id,
+        createdAt: new Date(),
         description: currentMessage === "לא" ? null : currentMessage,
       });
       localSendMessage(

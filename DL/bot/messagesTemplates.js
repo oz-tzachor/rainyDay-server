@@ -168,9 +168,9 @@ exports.showLastActivities = (targetName, activities, user) => {
     message += `סכום: ${amount}₪ ${emojis.money}${oneLine}${
       description ? `תיאור: ${description}${oneLine}` : ``
     }תאריך:${new Date(createdAt).toLocaleDateString(
-      "en-GB"
+      "he-IL"
     )}${oneLine}שעה: ${new Date(createdAt).toLocaleTimeString(
-      "en-GB"
+      "he-IL"
     )}${oneLine}על ידי: ${user}${threeLine}`;
   });
   message += `סך כל ההפקדות :${totalIncomes}₪${oneLine}סך כל המשיכות: ${totalExpenses}₪${oneLine}מצב הקופה כרגע: ${
