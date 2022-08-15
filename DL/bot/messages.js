@@ -79,6 +79,8 @@ const checkUser = async () => {
   });
   if (currentMessage.toLowerCase() === "deleteall") {
     await targetLogic.deleteAllTargets();
+    localSendMessage(currentChatId, "All deleted");
+    localSendMessage(currentChatId, mainMessage());
     changeTelegramState("main_userChoise");
     return;
   }
