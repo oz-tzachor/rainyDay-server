@@ -47,7 +47,7 @@ exports.signedUpSuuccessfully = () => {
 
 //Main proccess
 exports.mainMessage = (user) => {
-  const message = `מה ברצונך לעשות? ${emojis.hugs}${twoLine}1.קבלת תמונת מצב של החסכונות שלי ${emojis.dashboard}${twoLine}2.הפקדה לאחד מהיעדים ${emojis.plus}${twoLine}3.משיכה מאחד מהיעדים ${emojis.minus}${twoLine}4.תנועות אחרונות ביעדים שלי ${emojis.money}${twoLine}5.הוספת יעד חדש ${emojis.target}`;
+  const message = `מה ברצונך לעשות? ${emojis.hugs}${twoLine}1.קבלת תמונת מצב של החסכונות שלי ${emojis.dashboard}${twoLine}2.הפקדה לאחד מהיעדים ${emojis.greenCircle} ${emojis.plus}${twoLine}3.משיכה מאחד מהיעדים ${emojis.orangeCircle} ${emojis.minus}${twoLine}4.תנועות אחרונות ביעדים שלי ${emojis.money}${twoLine}5.הוספת יעד חדש ${emojis.target}${twoLine}6.שינוי סכום היעד באחד מהיעדים שלי ${emojis.restart}${twoLine}7.הוספת שותף.ה לחשבון ${emojis.hugs}${twoLine}8.מחיקת יעד ${emojis.warning}`;
   return message;
 };
 exports.targetNameMessage = () => {
@@ -178,4 +178,19 @@ exports.showLastActivities = (targetName, activities, user) => {
   }₪ ${emojis.money}${twoLine}אתה בדרך הנכונה! ${emojis.claps}`;
   return message;
 };
+
+//add collabrate
+exports.sendCollabrateMail = () => {
+  let message = `יאללה מגניב!${twoLine}שלח.י לנו את כתובת המייל של השותף.ה שתרצה.י להוסיף לחשבון שלך ואנחנו נדאג שזה יקרה,לך נשאר רק להזכיר לו לשלוח הודעה בטלגרם לבוט  שלנו.${twoLine}אז מה המיייל שלו?`;
+  return message;
+};
+exports.collabrateAddedSuccessfully = (email) => {
+  let message = `שמרנו את המייל שלו ${email} ${emojis.confirm}${twoLine} עכשיו רק תדאג.י שהחבר.ה ייצור איתנו קשר.${twoLine}בהודעה הבאה נשלח את הקיצור דרך לשיחה איתנו ככה שתוכל.י לשתף איתו.ה בקלות!`;
+  return message;
+};
+exports.sendBotDetails = () => {
+  let message = `@RainyDaySavebot`;
+  return message;
+};
+//
 // ₪

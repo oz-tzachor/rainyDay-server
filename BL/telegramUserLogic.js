@@ -9,6 +9,10 @@ async function getTelegramUser(filter) {
   const telegramUser = await telegramUserController.readOne(filter);
   return telegramUser;
 }
+async function getAllTelegramUsers(filter) {
+  const telegramUser = await telegramUserController.read(filter);
+  return telegramUser;
+}
 async function changeTelegramState(chatId, state) {
   const telegramUser = await telegramUserController.readOne({ chatId });
   telegramUser.state = state;
@@ -32,4 +36,5 @@ module.exports = {
   changeTelegramState,
   saveTempData,
   updateUserDetails,
+  getAllTelegramUsers,
 };

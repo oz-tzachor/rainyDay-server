@@ -4,7 +4,6 @@
 // const { newMessage } = require("./messages");
 ////////
 exports.sendMessage = (chatId, message) => {
-  console.log("hello from message");
   bot.sendMessage(chatId, message);
   return;
 };

@@ -29,6 +29,8 @@ const TelegramUser = new mongoose.Schema({
     default: new Date(),
   },
   firstName: { type: String },
+  collabrates: [{ type: String }],
+  isCollabrated: { type: Boolean, default: false },
   lastName: { type: String },
   email: { type: String },
   password: { type: String },

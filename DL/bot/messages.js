@@ -29,6 +29,9 @@ const {
   noTargetsYet,
   newTargetCompleted,
   showLastActivities,
+  sendCollabrateMail,
+  collabrateAddedSuccessfully,
+  sendBotDetails,
 } = require("./messagesTemplates");
 const { get } = require("mongoose");
 ///
@@ -36,7 +39,6 @@ let currentChatId;
 let currentMessage;
 let localSendMessage;
 let currentUser;
-
 const newMessage = (chatId, message, sendFunc) => {
   currentChatId = chatId;
   currentMessage = message;
@@ -121,6 +123,14 @@ let loginFlow = async (state) => {
       localSendMessage(currentChatId, loginMessage());
       break;
     case "login_sendMail":
+      let mailAppearsInCollabrate = await telegramUserLogic.getTelegramUser({
+        collabrates: currentMessage,
+      });
+      if (mailAppearsInCollabrate) {
+        console.log("appears!");
+        localSendMessage(currentChatId, "הוזמנת על ידי חבר!");
+        break;
+      }
       let user = await telegramUserLogic.getTelegramUser({
         email: currentMessage,
       });
@@ -130,10 +140,10 @@ let loginFlow = async (state) => {
         changeTelegramState("login_emailExist");
         return;
       }
-
       user = await telegramUserLogic.updateUserDetails(currentChatId, {
         email: currentMessage,
         authenticated: true,
+        isCollabrated: true,
       });
       localSendMessage(currentChatId, signedUpSuuccessfully());
       changeTelegramState("main_userChoise");
@@ -210,6 +220,18 @@ let mainFlow = async (state) => {
         case "5":
           localSendMessage(currentChatId, targetNameMessage());
           changeTelegramState("main_targetName");
+          break;
+        case "6":
+          localSendMessage(currentChatId, mainMessage());
+          changeTelegramState("main_userChoise");
+          break;
+        case "7":
+          localSendMessage(currentChatId, sendCollabrateMail());
+          changeTelegramState("main_inputCollabrateEmail");
+          break;
+        case "8":
+          localSendMessage(currentChatId, mainMessage());
+          changeTelegramState("main_userChoise");
           break;
 
         default:
@@ -452,6 +474,24 @@ let mainFlow = async (state) => {
       // );
 
       break;
+    //add collabrate
+    case "main_inputCollabrateEmail":
+      await telegramUserLogic.updateUserDetails(currentChatId, {
+        $push: { collabrates: currentMessage },
+      });
+      localSendMessage(
+        currentChatId,
+        collabrateAddedSuccessfully(currentMessage)
+      );
+      setTimeout(() => {
+        localSendMessage(currentChatId, sendBotDetails());
+      }, 1500);
+      setTimeout(() => {
+        localSendMessage(currentChatId, mainMessage());
+      }, 8000);
+      changeTelegramState("main_userChoise");
+      break;
+    //
     case "general":
       break;
     default:
@@ -459,4 +499,4 @@ let mainFlow = async (state) => {
   }
 };
 
-module.exports = { newMessage, checkUser };
+module.exports = { newMessage, checkUser, localSendMessage };

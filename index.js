@@ -8,6 +8,7 @@ const { loadMainSocket } = require("./DL/sockets/socket");
 const router = require("./Routers");
 const TelegramBot = require("node-telegram-bot-api");
 const { newMessage } = require("./DL/bot/messages");
+const { createCron, initializeCron } = require("./DL/cron/cron");
 const TELEGRAM_TOKEN = process.env.TELEGRAM_TOKEN;
 const bot = new TelegramBot(TELEGRAM_TOKEN, { polling: true });
 const io = new Server(4001, {
@@ -17,11 +18,12 @@ const io = new Server(4001, {
 app.use(express.json());
 app.use(require("cors")());
 app.use("/api", router);
+
 let sendMessage = (chatId, message) => {
-  console.log("hello from message");
   bot.sendMessage(chatId, message);
   return;
 };
+
 require("./DL/db")
   .connect()
   .then(
@@ -32,6 +34,8 @@ require("./DL/db")
       let text = msg.text;
       newMessage(chatId, text, sendMessage);
     })
+
+    // initializeCron(sendMessage)
   )
   .catch((e) => console.log("error", e));
 
