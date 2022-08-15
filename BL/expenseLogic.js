@@ -1,5 +1,5 @@
 const expenseController = require("../DL/Controllers/ExpenseController");
-const targetController = require("../DL/Controllers/targetController");
+const targetController = require("../DL/Controllers/TargetController");
 const { updateSocket } = require("../DL/sockets/socket");
 
 exports.createNewExpense = async (newExpenseDetails) => {
