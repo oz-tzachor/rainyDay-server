@@ -5,7 +5,7 @@ const Income = new mongoose.Schema({
   description: { type: String },
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now(),
   },
   createdBy: {
     type: mongoose.SchemaTypes.ObjectId,

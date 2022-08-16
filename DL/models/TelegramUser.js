@@ -22,11 +22,11 @@ const TelegramUser = new mongoose.Schema({
   },
   createdAt: {
     type: String,
-    default: new Date(),
+    default: Date.now(),
   },
   updatedAt: {
     type: String,
-    default: new Date(),
+    default: Date.now(),
   },
   firstName: { type: String },
   collabrates: [{ type: String }],

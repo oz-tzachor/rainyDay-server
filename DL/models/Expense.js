@@ -5,7 +5,7 @@ const Expense = new mongoose.Schema({
   amount: { type: Number, required: true },
   createdAt: {
     type: Date,
-    default: new Date(),
+    default: Date.now(),
   },
   createdBy: {
     type: mongoose.SchemaTypes.ObjectId,

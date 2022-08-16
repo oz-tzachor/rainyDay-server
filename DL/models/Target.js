@@ -6,7 +6,7 @@ const Target = new mongoose.Schema({
   goal: { type: Number, required: true, default: 0 },
   createdAt: {
     type: Date,
-    default: Date.now,
+    default: Date.now(),
   },
   createdBy: {
     type: mongoose.SchemaTypes.ObjectId,

@@ -20,7 +20,7 @@ const UserSchema = new mongoose.Schema({
   createdAt: {
     type: String,
     required: true,
-    default: new Date(),
+    default: Date.now(),
   },
   chatId: {
     type: String,

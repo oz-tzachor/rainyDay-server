@@ -6,9 +6,20 @@ let twoLine = "\n\n";
 let threeLine = "\n\n\n";
 
 //General
-
+let percentage = (number) => {
+  let numLength = number.toString().length;
+  if (numLength > 2) {
+    if (numLength === 3) {
+      return number;
+    }
+    if (numLength > 3) {
+      return number.toString().slice(0, 4);
+    }
+  }
+  return number;
+};
 exports.followTheInstructions = () => {
-  const message = `שלחת מספר שאינו נכלל באופציות ששלחנו כאן למעלה ${twoLine}תשתדל להקפיד על ההוקראות ${emojis.fix}`;
+  const message = `שלחת מספר שאינו נכלל באופציות ששלחנו כאן למעלה ${twoLine}תשתדל להקפיד על ההוראות ${emojis.fix}`;
   return message;
 };
 exports.followTheInstructionsNumbers = () => {
@@ -74,13 +85,13 @@ exports.showAllTargets = (targets) => {
     totalGoal += goal;
     message += `${index + 1}.${name} ${
       emojis.redFlag
-    }${twoLine}סכום שנחסך: ${amount}₪ ${emojis.money}${oneLine}יעד: ${goal}₪ ${
+    }${twoLine}כרגע בקופה : ${amount}₪ ${emojis.money}${oneLine}יעד: ${goal}₪ ${
       emojis.target
-    }${oneLine}אחוזי השלמה של היעד: ${Math.ceil((amount / goal) * 100)}% ${
+    }${oneLine}אחוזי השלמה של היעד: ${percentage((amount / goal) * 100)}% ${
       emojis.sandClock
     }${twoLine}\n`;
   });
-  message += `חסכת סך הכל ${totalAmount}₪${oneLine}שזה כבר ${Math.ceil(
+  message += `חסכת סך הכל ${totalAmount}₪${oneLine}שזה כבר ${percentage(
     (totalAmount / totalGoal) * 100
   )}% מסך כל היעדים שהצבת!${twoLine}כל הכבוד! ${emojis.claps} ${emojis.crown}`;
   return message;
@@ -97,9 +108,9 @@ exports.chooseTarget = (targets, type) => {
     let { name, amount, goal } = target;
     message += `${index + 1}.${name} ${
       emojis.redFlag
-    }${twoLine}סכום שנחסך: ${amount}₪ ${emojis.money}${oneLine}יעד: ${goal}₪ ${
+    }${twoLine}כרגע בקופה : ${amount}₪ ${emojis.money}${oneLine}יעד: ${goal}₪ ${
       emojis.target
-    }${oneLine}אחוזי השלמה של היעד: ${Math.ceil((amount / goal) * 100)}% ${
+    }${oneLine}אחוזי השלמה של היעד: ${percentage((amount / goal) * 100)}% ${
       emojis.sandClock
     }${twoLine}`;
   });
@@ -126,7 +137,7 @@ exports.addIncomeCompleted = (targetName, incomeAmount, targetProgress) => {
     emojis.claps
   }${twoLine}הפקדת ${incomeAmount}₪ ליעד: ${targetName}! ${
     emojis.coolGuy
-  }${twoLine}חסכת כבר ${Math.ceil(targetProgress)}% מהיעד הזה! ${emojis.fix}${
+  }${twoLine}חסכת כבר ${percentage(targetProgress)}% מהיעד הזה! ${emojis.fix}${
     emojis.confirm
   }`;
   return message;
@@ -148,7 +159,7 @@ exports.addExpenseCompleted = (targetName, expenseAmount) => {
 
 //last activities
 
-exports.showLastActivities = (targetName, activities, user) => {
+exports.showLastActivities = (targetName, targetGoal, activities, user) => {
   let message;
   if (!activities.length > 0) {
     return (message = `עוד אין תנועות ביעד: ${targetName} ${emojis.hugs}${twoLine}אז קדימה! זה הזמן להתחיל לחסוך! ${emojis.password} ${emojis.money}`);
@@ -173,9 +184,17 @@ exports.showLastActivities = (targetName, activities, user) => {
       "he-IL"
     )}${oneLine}על ידי: ${user}${threeLine}`;
   });
-  message += `סך כל ההפקדות :${totalIncomes}₪${oneLine}סך כל המשיכות: ${totalExpenses}₪${oneLine}מצב הקופה כרגע: ${
-    totalIncomes - totalExpenses
-  }₪ ${emojis.money}${twoLine}אתה בדרך הנכונה! ${emojis.claps}`;
+  message += `סך כל ההפקדות: ${totalIncomes}₪ ${
+    emojis.greenCircle
+  }${oneLine}סך כל המשיכות: ${totalExpenses}₪ ${
+    emojis.orangeCircle
+  }${oneLine}מצב הקופה כרגע: ${totalIncomes - totalExpenses}₪ ${
+    emojis.money
+  } ${oneLine}יעד הקופה: ${targetGoal}₪ ${
+    emojis.target
+  }${oneLine}התקדמות באחוזים: ${percentage(
+    (totalIncomes / targetGoal) * 100
+  )}% ${emojis.sandClock}${twoLine}אתה בדרך הנכונה! ${emojis.claps}`;
   return message;
 };
 

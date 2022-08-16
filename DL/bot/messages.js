@@ -460,6 +460,7 @@ let mainFlow = async (state) => {
           currentChatId,
           showLastActivities(
             res[currentMessage - 1].name,
+            res[currentMessage - 1].goal,
             lastActs,
             currentUser.email
           )
