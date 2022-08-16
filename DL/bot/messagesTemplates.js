@@ -178,11 +178,13 @@ exports.showLastActivities = (targetName, targetGoal, activities, user) => {
     }
     message += `סכום: ${amount}₪ ${emojis.money}${oneLine}${
       description ? `תיאור: ${description}${oneLine}` : ``
-    }תאריך:${new Date(createdAt).toLocaleDateString(
-      "he-IL"
-    )}${oneLine}שעה: ${new Date(createdAt).toLocaleTimeString(
-      "he-IL"
-    )}${oneLine}על ידי: ${user}${threeLine}`;
+    }תאריך:${new Date(createdAt)
+      .toLocaleDateString("he-IL", { timeZone: "Asia/Jerusalem" })
+      .replace(/\D/g, "/")}${oneLine}שעה: ${new Date(
+      createdAt
+    ).toLocaleTimeString("he-IL", {
+      timeZone: "Asia/Jerusalem",
+    })}${oneLine}על ידי: ${user}${threeLine}`;
   });
   message += `סך כל ההפקדות: ${totalIncomes}₪ ${
     emojis.greenCircle
