@@ -425,7 +425,7 @@ let mainFlow = async (state) => {
         target: currentUser.expenseDetails.target,
         createdBy: currentUser._id,
         createdAt: new Date(),
-        description: currentMessage === "לא" ? null : currentMessage,
+        description: currentMessage,
       });
       localSendMessage(
         currentChatId,
