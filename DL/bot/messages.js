@@ -425,7 +425,10 @@ let mainFlow = async (state) => {
         target: currentUser.expenseDetails.target,
         createdBy: currentUser._id,
         createdAt: new Date(),
-        description: currentMessage,
+        description:
+          currentMessage === "לא"
+            ? "המשתמש בחר שלא לרשום תיאור למשיכה זו"
+            : currentMessage,
       });
       localSendMessage(
         currentChatId,
