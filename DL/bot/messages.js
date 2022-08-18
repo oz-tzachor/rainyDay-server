@@ -2,6 +2,7 @@ const telegramUserLogic = require("../../BL/telegramUserLogic");
 const targetLogic = require("../../BL/targetLogic");
 const incomeLogic = require("../../BL/incomeLogic");
 const expenseLogic = require("../../BL/expenseLogic");
+const dashboardLogic = require("../../BL/dashboardLogic");
 const sendMessage = require("./bot");
 const {
   loginMessage,
@@ -32,6 +33,7 @@ const {
   sendCollabrateMail,
   collabrateAddedSuccessfully,
   sendBotDetails,
+  welcomeCollabrate,
 } = require("./messagesTemplates");
 const { get } = require("mongoose");
 ///
@@ -49,7 +51,11 @@ const changeTelegramState = async (state) => {
   return await telegramUserLogic.changeTelegramState(currentChatId, state);
 };
 const getTargets = async () => {
-  return await targetLogic.getAllTargets({ createdBy: currentUser._id });
+  let targets = await targetLogic.getAllTargets({
+    dashboard: currentUser.defaultDashboard,
+  });
+  console.log(await targets);
+  return targets;
 };
 const getLastActs = async (target) => {
   let incomes = await incomeLogic.getIncomes(target);
@@ -88,7 +94,6 @@ const checkUser = async () => {
     changeTelegramState("initial");
     telegramUserLogic.updateUserDetails(currentChatId, {
       authenticated: false,
-      email: "",
     });
     localSendMessage(currentChatId, "reset");
     return;
@@ -98,14 +103,19 @@ const checkUser = async () => {
     changeTelegramState("main_userChoise");
     return;
   }
-  if (!currentUser || !currentUser.authenticated) {
+  if (!currentUser || !currentUser?.authenticated) {
     if (!currentUser) {
       localSendMessage(currentChatId, loginMessage());
       let newTelegramUser = await telegramUserLogic.newTelegramUser({
         chatId: currentChatId,
       });
+      return;
     } else {
-      loginFlow(currentUser.state);
+      if (!currentUser.authenticated) {
+        loginFlow(currentUser.state);
+      } else {
+        mainFlow(currentUser.state);
+      }
     }
   } else {
     if (currentUser.state === "initial") {
@@ -128,17 +138,36 @@ let loginFlow = async (state) => {
       localSendMessage(currentChatId, loginMessage());
       break;
     case "login_sendMail":
-      let mailAppearsInCollabrate = await telegramUserLogic.getTelegramUser({
-        collabrates: currentMessage,
-      });
-      if (mailAppearsInCollabrate) {
-        console.log("appears!");
-        localSendMessage(currentChatId, "הוזמנת על ידי חבר!");
-        break;
-      }
       let user = await telegramUserLogic.getTelegramUser({
-        email: currentMessage,
+        chatId: currentChatId,
       });
+      if (!user.email || user.email === "") {
+        let inviterUser = await telegramUserLogic.getTelegramUser({
+          collabrates: currentMessage,
+        });
+        if (inviterUser) {
+          console.log("appears!", inviterUser);
+          let newTelegramUser = await telegramUserLogic.updateUserDetails(
+            currentChatId,
+            {
+              email: currentMessage,
+              defaultDashboard: inviterUser.defaultDashboard,
+              authenticated: true,
+            }
+          );
+          localSendMessage(
+            currentChatId,
+            welcomeCollabrate(currentMessage, inviterUser.email)
+          );
+          setTimeout(() => {
+            localSendMessage(currentChatId, mainMessage());
+            changeTelegramState("main_userChoise");
+          }, 2000);
+          return;
+          break;
+        }
+      }
+
       console.log("user", user, currentMessage);
       if (user) {
         localSendMessage(currentChatId, emailExist());
@@ -148,8 +177,15 @@ let loginFlow = async (state) => {
       user = await telegramUserLogic.updateUserDetails(currentChatId, {
         email: currentMessage,
         authenticated: true,
-        isCollabrated: true,
       });
+      let newDashboard = await dashboardLogic.createDashboard({
+        name: `${currentMessage}'s dashboard`,
+        createdBy: user._id,
+      });
+      let updatedUser = await telegramUserLogic.updateUserDetails(
+        currentChatId,
+        { defaultDashboard: newDashboard._id }
+      );
       localSendMessage(currentChatId, signedUpSuuccessfully());
       changeTelegramState("main_userChoise");
       setTimeout(() => {
@@ -267,6 +303,7 @@ let mainFlow = async (state) => {
           name: currentUser.targetDetails.name,
           goal: currentMessage,
           createdBy: currentUser._id,
+          dashboard: currentUser.defaultDashboard,
         });
         if (newTarget) {
           localSendMessage(
@@ -345,6 +382,8 @@ let mainFlow = async (state) => {
         target: currentUser.incomeDetails.target,
         createdBy: currentUser._id,
         createdAt: new Date(),
+        dashboard: currentUser.defaultDashboard,
+
         description: currentMessage === "לא" ? null : currentMessage,
       });
       console.log("selected", selectedTarget.amount, selectedTarget.goal);
@@ -430,6 +469,7 @@ let mainFlow = async (state) => {
         target: currentUser.expenseDetails.target,
         createdBy: currentUser._id,
         createdAt: new Date(),
+        dashboard: currentUser.defaultDashboard,
         description:
           currentMessage === "לא"
             ? "המשתמש בחר שלא לרשום תיאור למשיכה זו"

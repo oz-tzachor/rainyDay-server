@@ -16,6 +16,10 @@ const Income = new mongoose.Schema({
     ref: "Target",
     required: true,
   },
+  dashboard: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "Dashboard",
+  },
   source: {
     type: String,
     required: true,

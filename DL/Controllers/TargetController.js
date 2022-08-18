@@ -4,10 +4,10 @@ async function create(data) {
   return await TargetModel.create(data);
 }
 async function read(filter) {
-  return await TargetModel.find(filter);
+  return await TargetModel.find(filter).populate("createdBy");
 }
 async function readOne(filter) {
-  return await TargetModel.findOne(filter).exec();
+  return await TargetModel.findOne(filter).populate("createdBy").exec();
 }
 async function update(filter, newData) {
   return await TargetModel.updateOne(filter, newData);

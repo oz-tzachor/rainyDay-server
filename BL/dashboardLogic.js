@@ -14,3 +14,6 @@ exports.getDashboard = (filter) => {
 exports.getAllDashboards = () => {
   return dashboardController.read({});
 };
+exports.updateDashboardDetails = (filter, newData) => {
+  return dashboardController.update(filter, newData);
+};

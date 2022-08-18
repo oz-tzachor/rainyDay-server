@@ -4,7 +4,9 @@ async function create(data) {
   return await ExpenseModel.create(data);
 }
 async function read(filter) {
-  return await ExpenseModel.find(filter).populate("target");
+  return await ExpenseModel.find(filter)
+    .populate("target")
+    .populate("createdBy");
 }
 async function update(filter, newData) {
   return await ExpenseModel.updateOne(filter, newData);

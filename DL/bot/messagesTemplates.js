@@ -219,7 +219,6 @@ exports.showLastActivities = (targetName, targetGoal, activities, user) => {
 exports.sendCollabrateMail = () => {
   let message = `יאללה מגניב!${twoLine}שלח.י לנו את כתובת המייל של השותף.ה שתרצה.י להוסיף לחשבון שלך ואנחנו נדאג שזה יקרה,לך נשאר רק להזכיר לו לשלוח הודעה בטלגרם לבוט  שלנו.${twoLine}אז מה המיייל שלו?`;
   message += addBackOption();
-
   return message;
 };
 exports.collabrateAddedSuccessfully = (email) => {
@@ -230,5 +229,10 @@ exports.sendBotDetails = () => {
   let message = `@RainyDaySavebot`;
   return message;
 };
+exports.welcomeCollabrate = (collabrateEmail, inviterEmail) => {
+  let message = `היי ${collabrateEmail}!${twoLine}הוזמנת לכאן על ידי ${inviterEmail} ${twoLine}מעכשיו אתה חלק מניהול החסכונות שלו אז ברוך הבא! ${emojis.smiley}${threeLine}אנחנו נשמח לעזור לכם לנהל טוב את החסכונות שלכם ליום גשום!${twoLine} אז יאללה בואו נצא לדרך! ${emojis.coolGuy}`;
+  return message;
+};
 //
+
 // ₪

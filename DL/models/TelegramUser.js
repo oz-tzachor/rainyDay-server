@@ -12,7 +12,7 @@ const TelegramUser = new mongoose.Schema({
   defaultDashboardName: {
     type: String,
   },
-  defaultDashboardTelegram: {
+  defaultDashboard: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: "Dashboard",
   },
