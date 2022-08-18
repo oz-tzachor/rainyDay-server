@@ -1,6 +1,6 @@
-const { model } = require("mongoose");
-const { dealWithMessage } = require("./bot");
-const { emojis } = require("./emojis");
+let { model } = require("mongoose");
+let { dealWithMessage } = require("./bot");
+let { emojis } = require("./emojis");
 let oneLine = "\n";
 let twoLine = "\n\n";
 let threeLine = "\n\n\n";
@@ -18,59 +18,66 @@ let percentage = (number) => {
   }
   return number;
 };
+let addBackOption = () => {
+  let message = `${twoLine}לחזרה לתפריט הראשי אנא שלח: 9 ${emojis.restart} ${emojis.x}`;
+  return message;
+};
 exports.followTheInstructions = () => {
-  const message = `שלחת מספר שאינו נכלל באופציות ששלחנו כאן למעלה ${twoLine}תשתדל להקפיד על ההוראות ${emojis.fix}`;
+  let message = `שלחת מספר שאינו נכלל באופציות ששלחנו כאן למעלה ${twoLine}תשתדל להקפיד על ההוראות ${emojis.fix}`;
   return message;
 };
 exports.followTheInstructionsNumbers = () => {
-  const message = `בבקשה לשלוח מספרים בלבד ${emojis.numbers}`;
+  let message = `בבקשה לשלוח מספרים בלבד ${emojis.numbers}`;
   return message;
 };
 
 //login process
 exports.loginMessage = () => {
-  const message = `היי, נראה שעוד לא התחברת למערכת שלנו ${emojis.sad}${twoLine}אם ברצונך להתחבר - אנא שלח 1 `;
+  let message = `היי, נראה שעוד לא התחברת למערכת שלנו ${emojis.sad}${twoLine}אם ברצונך להתחבר - אנא שלח 1 `;
   return message;
 };
 exports.inputEmailMessage = () => {
-  const message = `מעולה! ${emojis.smiley}${twoLine}אנחנו נשמח מאד שתצטרף אלינו! ככה נוכל לעזור לך לנהל כמו שצריךאת החסכון ליום גשום!${twoLine}
+  let message = `מעולה! ${emojis.smiley}${twoLine}אנחנו נשמח מאד שתצטרף אלינו! ככה נוכל לעזור לך לנהל כמו שצריךאת החסכון ליום גשום!${twoLine}
   להמשך התהליך אנא שלח את כתובת המייל שלך ${emojis.email}`;
   return message;
 };
 
 exports.emailExist = () => {
-  const message = `אוי יש לנו בעיה ${emojis.warning}${twoLine}משתמש אחר כבר נרשם עם המייל הזה.${twoLine}מה אפשר לעשות?${oneLine}1.שליחה של מייל אחר${oneLine}2.עדכון של המייל הזה לחשבון הטלגרם הזה שאנחנו מתכתבים בו עכשיו`;
+  let message = `אוי יש לנו בעיה ${emojis.warning}${twoLine}משתמש אחר כבר נרשם עם המייל הזה.${twoLine}מה אפשר לעשות?${oneLine}1.שליחה של מייל אחר${oneLine}2.עדכון של המייל הזה לחשבון הטלגרם הזה שאנחנו מתכתבים בו עכשיו`;
+
   return message;
 };
 exports.retypeEmail = () => {
-  const message = `אוקיי,בוא ננסה שוב ${emojis.restart}${twoLine}בבקשה שלח לנו את כתובת המייל החדשה שאיתה תרצה להירשם ${emojis.email}`;
+  let message = `אוקיי,בוא ננסה שוב ${emojis.restart}${twoLine}בבקשה שלח לנו את כתובת המייל החדשה שאיתה תרצה להירשם ${emojis.email}`;
   return message;
 };
 exports.resetEmail = (email) => {
-  const message = `יאללה בוא נעדכן את המייל שלך לחשבון הטלגרם הזה!${twoLine}שלחנו אל המייל הזה:${oneLine}${email}${twoLine} קוד בן 4 ספרות שישמש לאיפוס החשבון והגדרת המייל הזה בתור מייל ברירת המחדל${threeLine}הקוד בתוקף ל-5 דקות בלבד!${twoLine}אז מה הקוד שקיבלת?`;
+  let message = `יאללה בוא נעדכן את המייל שלך לחשבון הטלגרם הזה!${twoLine}שלחנו אל המייל הזה:${oneLine}${email}${twoLine} קוד בן 4 ספרות שישמש לאיפוס החשבון והגדרת המייל הזה בתור מייל ברירת המחדל${threeLine}הקוד בתוקף ל-5 דקות בלבד!${twoLine}אז מה הקוד שקיבלת?`;
   return message;
 };
 
 exports.signedUpSuuccessfully = () => {
-  const message = `מצוין! נרשמת למערכת שלנו! כן, זה עד כדי כך פשוט! ${emojis.coolGuy}`;
+  let message = `מצוין! נרשמת למערכת שלנו! כן, זה עד כדי כך פשוט! ${emojis.coolGuy}`;
   return message;
 };
 
 //Main proccess
 exports.mainMessage = (user) => {
-  const message = `מה ברצונך לעשות? ${emojis.hugs}${twoLine}1.קבלת תמונת מצב של החסכונות שלי ${emojis.dashboard}${twoLine}2.הפקדה לאחד מהיעדים ${emojis.greenCircle} ${emojis.plus}${twoLine}3.משיכה מאחד מהיעדים ${emojis.orangeCircle} ${emojis.minus}${twoLine}4.תנועות אחרונות ביעדים שלי ${emojis.money}${twoLine}5.הוספת יעד חדש ${emojis.target}${twoLine}6.שינוי סכום היעד באחד מהיעדים שלי ${emojis.restart}${twoLine}7.הוספת שותף.ה לחשבון ${emojis.hugs}${twoLine}8.מחיקת יעד ${emojis.warning}`;
+  let message = `מה ברצונך לעשות? ${emojis.hugs}${twoLine}1.קבלת תמונת מצב של החסכונות שלי ${emojis.dashboard}${twoLine}2.הפקדה לאחד מהיעדים ${emojis.greenCircle} ${emojis.plus}${twoLine}3.משיכה מאחד מהיעדים ${emojis.orangeCircle} ${emojis.minus}${twoLine}4.תנועות אחרונות ביעדים שלי ${emojis.money}${twoLine}5.הוספת יעד חדש ${emojis.target}${twoLine}6.שינוי סכום היעד באחד מהיעדים שלי ${emojis.restart}${twoLine}7.הוספת שותף.ה לחשבון ${emojis.hugs}${twoLine}8.מחיקת יעד ${emojis.warning}`;
   return message;
 };
 exports.targetNameMessage = () => {
   let message = `יאללה יוצרים יעד! ${emojis.target}${twoLine}הדבר הראשון שאנחנו צריכים בשביל יעד זה את השם שלו.${twoLine}אז איך היית קורא ליעד שלך?`;
+  message += addBackOption();
   return message;
 };
 exports.targetGoalMessage = (targetName) => {
-  const message = `השם שבחרת ליעד שלך הוא:${targetName}${twoLine}הדבר השני שצריך כדי ליצור יעד הוא לבחור את הסכום שאליו אנחנו שואפים ${emojis.money}${threeLine}שלח לי את סכום היעד שאליו אתה שואף ונתקדם ${emojis.plus}${twoLine}בבקשה לשלוח רק מספרים- ככה זה עובד ${emojis.claps}`;
+  let message = `השם שבחרת ליעד שלך הוא:${targetName}${twoLine}הדבר השני שצריך כדי ליצור יעד הוא לבחור את הסכום שאליו אנחנו שואפים ${emojis.money}${threeLine}שלח לי את סכום היעד שאליו אתה שואף ונתקדם ${emojis.plus}${twoLine}בבקשה לשלוח רק מספרים- ככה זה עובד ${emojis.claps}`;
+  message += addBackOption();
   return message;
 };
 exports.newTargetCompleted = (targetName, targetGoal) => {
-  const message = `ישש! ${emojis.smiley}${twoLine}היעד נוצר בהצלחה ${emojis.target} ${emojis.confirm}${threeLine}שם: ${targetName} ${emojis.saved}${twoLine}יעד: ${targetGoal}${emojis.creditCard}${threeLine}בהצלחה ${emojis.prayingHands}`;
+  let message = `ישש! ${emojis.smiley}${twoLine}היעד נוצר בהצלחה ${emojis.target} ${emojis.confirm}${threeLine}שם: ${targetName} ${emojis.saved}${twoLine}יעד: ${targetGoal} ${emojis.creditCard}${threeLine}בהצלחה ${emojis.prayingHands}`;
   return message;
 };
 
@@ -114,6 +121,7 @@ exports.chooseTarget = (targets, type) => {
       emojis.sandClock
     }${twoLine}`;
   });
+  message += addBackOption();
   return message;
 };
 exports.noTargetsYet = () => {
@@ -124,16 +132,19 @@ exports.noTargetsYet = () => {
 
 //Add new income
 exports.addIncomeAmount = (targetName) => {
-  const message = `בחרת להפקיד ליעד: ${targetName}${twoLine}מה הסכום שברצונך להוסיף? ${emojis.money}(מספרים בלבד ${emojis.numbers})`;
+  let message = `בחרת להפקיד ליעד: ${targetName}${twoLine}מה הסכום שברצונך להוסיף? ${emojis.money}(מספרים בלבד ${emojis.numbers})`;
+  message += addBackOption();
+
   return message;
 };
 exports.addIncomeDescription = (targetName, incomeAmount) => {
-  const message = `מעולה! בחרת להוסיף ליעד ${targetName} סכום של : ${incomeAmount}₪${twoLine}עכשיו אפשר להוסיף טקסט להפקדה הזו כדי שתמיד נזכור במה מדובר!${twoLine}מה התיאור שתרצה לכתוב להפקדה זו?${threeLine}אם אתה לא רוצה לשמור שום תיאור אנא שלח :"לא"`;
+  let message = `מעולה! בחרת להוסיף ליעד ${targetName} סכום של : ${incomeAmount}₪${twoLine}עכשיו אפשר להוסיף טקסט להפקדה הזו כדי שתמיד נזכור במה מדובר!${twoLine}מה התיאור שתרצה לכתוב להפקדה זו?${threeLine}אם אתה לא רוצה לשמור שום תיאור אנא שלח :"לא"`;
+  message += addBackOption();
   return message;
 };
 exports.addIncomeCompleted = (targetName, incomeAmount, targetProgress) => {
   console.log("targetProgress", targetProgress);
-  const message = `אליפות! ${
+  let message = `אליפות! ${
     emojis.claps
   }${twoLine}הפקדת ${incomeAmount}₪ ליעד: ${targetName}! ${
     emojis.coolGuy
@@ -145,15 +156,19 @@ exports.addIncomeCompleted = (targetName, incomeAmount, targetProgress) => {
 
 //add new expense
 exports.addExpenseAmount = (targetName) => {
-  const message = `בחרת למשוך מהיעד: ${targetName}${twoLine}מה הסכום שברצונך למשוך? ${emojis.money}(מספרים בלבד ${emojis.numbers})`;
+  let message = `בחרת למשוך מהיעד: ${targetName}${twoLine}מה הסכום שברצונך למשוך? ${emojis.money}(מספרים בלבד ${emojis.numbers})`;
+  message += addBackOption();
+
   return message;
 };
 exports.addExpenseDescription = (targetName, expenseAmount) => {
-  const message = `אוקיי! בחרת למשוך מהיעד: ${targetName} סכום של : ${expenseAmount}₪${twoLine}עכשיו צריך להוסיף טקסט למשיכה הזו הזו כדי שתמיד נזכור במה מדובר ונוכל לעקוב אחרי החסכונות שלנו ${emojis.saved}!${twoLine}מה התיאור שתרצה לכתוב למשיכה זו?`;
+  let message = `אוקיי! בחרת למשוך מהיעד: ${targetName} סכום של : ${expenseAmount}₪${twoLine}עכשיו צריך להוסיף טקסט למשיכה הזו הזו כדי שתמיד נזכור במה מדובר ונוכל לעקוב אחרי החסכונות שלנו ${emojis.saved}!${twoLine}מה התיאור שתרצה לכתוב למשיכה זו?`;
+  message += addBackOption();
+
   return message;
 };
 exports.addExpenseCompleted = (targetName, expenseAmount) => {
-  const message = `סיימנו! ${emojis.confirm}${twoLine}משכת ${expenseAmount}₪ מהיעד: ${targetName}! ${emojis.minus}${emojis.money}`;
+  let message = `סיימנו! ${emojis.confirm}${twoLine}משכת ${expenseAmount}₪ מהיעד: ${targetName}! ${emojis.minus}${emojis.money}`;
   return message;
 };
 
@@ -203,6 +218,8 @@ exports.showLastActivities = (targetName, targetGoal, activities, user) => {
 //add collabrate
 exports.sendCollabrateMail = () => {
   let message = `יאללה מגניב!${twoLine}שלח.י לנו את כתובת המייל של השותף.ה שתרצה.י להוסיף לחשבון שלך ואנחנו נדאג שזה יקרה,לך נשאר רק להזכיר לו לשלוח הודעה בטלגרם לבוט  שלנו.${twoLine}אז מה המיייל שלו?`;
+  message += addBackOption();
+
   return message;
 };
 exports.collabrateAddedSuccessfully = (email) => {
