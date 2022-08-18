@@ -18,6 +18,10 @@ const io = new Server(4001, {
 app.use(express.json());
 app.use(require("cors")());
 app.use("/api", router);
+//Kaffeine
+app.get("/kaffein", (req, res) => {
+  res.send("ok");
+});
 
 let sendMessage = (chatId, message) => {
   bot.sendMessage(chatId, message);
