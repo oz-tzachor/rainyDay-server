@@ -183,6 +183,11 @@ let loginFlow = async (state) => {
 let mainFlow = async (state) => {
   let res;
   let selectedTarget;
+  if (currentMessage === "9") {
+    localSendMessage(currentChatId, mainMessage());
+    changeTelegramState("main_userChoise");
+    return;
+  }
   switch (state) {
     case "main_initial":
       localSendMessage(currentChatId, mainMessage());
