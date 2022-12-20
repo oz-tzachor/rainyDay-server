@@ -43,7 +43,7 @@ let localSendMessage;
 let currentUser;
 const newMessage = (chatId, message, sendFunc) => {
   currentChatId = chatId;
-  currentMessage = message;
+  currentMessage = message.toLowerCase();
   localSendMessage = sendFunc;
   checkUser();
 };
@@ -54,7 +54,7 @@ const getTargets = async () => {
   let targets = await targetLogic.getAllTargets({
     dashboard: currentUser.defaultDashboard,
   });
-  console.log(await targets);
+  console.log(await targets[0]);
   return targets;
 };
 const getLastActs = async (target) => {
@@ -169,7 +169,7 @@ let loginFlow = async (state) => {
       }
 
       console.log("user", user, currentMessage);
-      if (user) {
+      if (user && user.email === currentMessage.toLowerCase()) {
         localSendMessage(currentChatId, emailExist());
         changeTelegramState("login_emailExist");
         return;
@@ -509,8 +509,7 @@ let mainFlow = async (state) => {
           showLastActivities(
             res[currentMessage - 1].name,
             res[currentMessage - 1].goal,
-            lastActs,
-            currentUser.email
+            lastActs
           )
         );
         setTimeout(() => {

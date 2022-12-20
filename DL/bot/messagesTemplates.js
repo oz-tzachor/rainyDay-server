@@ -174,7 +174,7 @@ exports.addExpenseCompleted = (targetName, expenseAmount) => {
 
 //last activities
 
-exports.showLastActivities = (targetName, targetGoal, activities, user) => {
+exports.showLastActivities = (targetName, targetGoal, activities) => {
   let message;
   if (!activities.length > 0) {
     return (message = `עוד אין תנועות ביעד: ${targetName} ${emojis.hugs}${twoLine}אז קדימה! זה הזמן להתחיל לחסוך! ${emojis.password} ${emojis.money}`);
@@ -183,7 +183,7 @@ exports.showLastActivities = (targetName, targetGoal, activities, user) => {
   let totalIncomes = 0;
   let totalExpenses = 0;
   activities.map((activity) => {
-    let { type, amount, createdAt, description } = activity;
+    let { type, amount, createdAt, description, createdBy } = activity;
     if (type === "income") {
       message += `הפקדה ${emojis.greenCircle} ${emojis.plus}${twoLine}`;
       totalIncomes += amount;
@@ -199,7 +199,7 @@ exports.showLastActivities = (targetName, targetGoal, activities, user) => {
       createdAt
     ).toLocaleTimeString("he-IL", {
       timeZone: "Asia/Jerusalem",
-    })}${oneLine}על ידי: ${user}${threeLine}`;
+    })}${oneLine}על ידי: ${createdBy.email}${threeLine}`;
   });
   message += `סך כל ההפקדות: ${totalIncomes}₪ ${
     emojis.greenCircle

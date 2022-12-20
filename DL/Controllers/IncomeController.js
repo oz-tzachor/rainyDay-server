@@ -5,8 +5,8 @@ async function create(data) {
 }
 async function read(filter) {
   return await IncomeModel.find(filter)
-    .populate("target")
-    .populate("createdBy");
+    .populate("createdBy")
+    .populate("target");
 }
 async function update(filter, newData) {
   return await IncomeModel.updateOne(filter, newData);
