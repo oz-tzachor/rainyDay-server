@@ -3,7 +3,6 @@ const telegramUserLogic = require("../../BL/telegramUserLogic");
 const targetLogic = require("../../BL/targetLogic");
 const { showAllTargets } = require("../bot/messagesTemplates");
 let cron_sendMessage;
-
 let initializeCron = (sendMessage) => {
   cron_sendMessage = sendMessage;
   // createCron();
